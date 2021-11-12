@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- FORM -->
+    <record id="sale_order_line_sales_history_form" model="ir.ui.view">
+        <field name="name">sale.order.line.sales.history.form</field>
+        <field name="model">sale.order.line.sales.history</field>
+        <field name="arch" type="xml">
+            <form>
+                <group col="4">
+                    <field name="partner_id" />
+                    <field name="product_id" readonly="1" />
+                    <field name="include_commercial_partner" />
+                    <field name="include_quotations" />
+                </group>
+                <group string="Sale history">
+                    <field name="line_ids" nolabel="1" readonly="1" options="{'no_open': True}">
+                        <tree default_order='partner_id'>
+                            <field name="order_id" />
+                            <field
+                                name="partner_id"
+                                attrs="{'column_invisible': [('parent.partner_id', '!=', False)]}"
+                            />
+                            <field name="sale_order_date_order" />
+                            <field name="product_uom_qty" />
+                            <field name="price_unit" />
+                            <field
+                                name="discount"
+                                groups="product.group_discount_per_so_line"
+                            />
+                        </tree>
+                    </field>
+                </group>
+                <field name="sale_order_line_id" invisible="1" />
+                <footer>
+                    <button special="cancel" string="Close" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- ACTION -->
+    <record id="sale_order_line_sales_history_action" model="ir.actions.act_window">
+        <field name="name">Sales history per customer</field>
+        <field name="res_model">sale.order.line.sales.history</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
